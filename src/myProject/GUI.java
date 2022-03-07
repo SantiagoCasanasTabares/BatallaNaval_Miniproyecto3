@@ -1,6 +1,7 @@
 package myProject;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 /**
@@ -10,7 +11,11 @@ import java.awt.*;
  */
 public class GUI extends JFrame {
 
-    private Header headerProject;
+    private ImageIcon titulo;
+    private JLabel imagentitulo;
+    private Escucha escucha;
+    private JPanel panelPrincipal, panelPosicion;
+    private JugadorPc jugadorPc;
 
     /**
      * Constructor of GUI class
@@ -19,10 +24,9 @@ public class GUI extends JFrame {
         initGUI();
 
         //Default JFrame configuration
-        this.setTitle("The Title app");
-        this.setSize(200,100);
-        //this.pack();
-        this.setResizable(true);
+        this.setTitle("Battleship");
+        this.pack();
+        this.setResizable(false);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,11 +38,36 @@ public class GUI extends JFrame {
      */
     private void initGUI() {
         //Set up JFrame Container's Layout
-        //Create Listener Object and Control Object
-        //Set up JComponents
-        headerProject = new Header("Header ...", Color.BLACK);
+        setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
 
-        this.add(headerProject,BorderLayout.NORTH); //Change this line if you change JFrame Container's Layout
+        /**
+         * Create Listener Object and Control Object
+         */
+        escucha = new Escucha();
+
+
+        /**
+         * set the color of the panel
+         */
+        this.getContentPane().setBackground(new Color(238,241,240));
+
+
+        /**
+         * set up components -------------------------------------------------------------------------------------------
+         */
+
+        /**
+         * tittle
+         */
+        titulo = new ImageIcon(getClass().getResource("/Resources/tittle.png"));
+        imagentitulo = new JLabel(titulo);
+        imagentitulo.setBorder(new EmptyBorder(0, 20, 20, 0));
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.gridwidth = 2;
+        this.add(imagentitulo, constraints);
+
     }
 
     /**
