@@ -10,6 +10,15 @@ public class JugadorPc {
     public JugadorPc() {
         barcosPc = new int[10][10];
         disparosPc = new boolean[10][10];
+        arrayDisparos();
+    }
+
+    public void arrayDisparos(){
+        for (int i=0; i < disparosPc.length; i++){
+            for (int j=0; j < disparosPc.length; j++){
+                disparosPc[i][j]=false;
+            }
+        }
     }
 
 
