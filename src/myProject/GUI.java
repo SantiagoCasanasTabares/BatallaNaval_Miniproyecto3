@@ -3,6 +3,8 @@ package myProject;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * This class is used for ...
@@ -15,7 +17,7 @@ public class GUI extends JFrame {
     private JLabel imagentitulo;
     private Escucha escucha;
     private JPanel panelPrincipal, panelPosicion;
-    private JugadorPc jugadorPc;
+    private JButton mostrar, disparar;
 
     /**
      * Constructor of GUI class
@@ -47,6 +49,7 @@ public class GUI extends JFrame {
         escucha = new Escucha();
 
 
+
         /**
          * set the color of the panel
          */
@@ -68,6 +71,20 @@ public class GUI extends JFrame {
         constraints.gridwidth = 2;
         this.add(imagentitulo, constraints);
 
+        disparar = new JButton();
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        disparar.addActionListener(escucha);
+        //constraints.gridwidth = 2;
+        this.add(disparar, constraints);
+
+        mostrar = new JButton();
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        mostrar.addActionListener(escucha);
+        //constraints.gridwidth = 2;
+        this.add(mostrar, constraints);
+
     }
 
     /**
@@ -78,13 +95,29 @@ public class GUI extends JFrame {
     public static void main(String[] args){
         EventQueue.invokeLater(() -> {
             GUI miProjectGUI = new GUI();
+
         });
     }
 
     /**
      * inner class that extends an Adapter Class or implements Listeners used by GUI class
      */
-    private class Escucha {
+    private class Escucha implements ActionListener {
 
+        JugadorPc jugadorPc = new JugadorPc();
+
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource()==mostrar){
+                jugadorPc.disparar();
+                jugadorPc.mostrarDisparos();
+                System.out.println("barcos");
+            }else{
+                jugadorPc.disparar();
+                jugadorPc.mostrarDisparos();
+                System.out.println("dispara");
+            }
+        }
     }
 }
