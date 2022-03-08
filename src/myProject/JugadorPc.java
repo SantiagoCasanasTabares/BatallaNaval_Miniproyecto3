@@ -6,8 +6,7 @@ import java.util.Random;
 public class JugadorPc {
     private Barco barco1, barco2, barco3, barco4, barco5, barco6, barco7, barco8, barco9, barco10;
     private ArrayList<Barco> barcos;
-    private int[][] barcosPc;
-    private boolean[][] disparosPc;
+    private Casillas[][] casillasPc;
     private Random random;
 
 
@@ -36,27 +35,19 @@ public class JugadorPc {
 
         random = new Random();
 
-        barcosPc = new int[10][10];
-        disparosPc = new boolean[10][10];
-        arrayBidDisparos();
-        arrayBidBarcos();
+        casillasPc = new Casillas[10][10];
+        arrayBidCasillas();
     }
 
-    public void arrayBidBarcos(){
-        for (int i=0; i < barcosPc.length; i++){
-            for (int j=0; j < barcosPc.length; j++){
-                barcosPc[i][j]=0;
+    public void arrayBidCasillas(){
+        for (int i=0; i < casillasPc.length; i++){
+            for (int j=0; j < casillasPc.length; j++){
+                casillasPc[i][j]=;
+
             }
         }
     }
 
-    public void arrayBidDisparos(){
-        for (int i=0; i < disparosPc.length; i++){
-            for (int j=0; j < disparosPc.length; j++){
-                disparosPc[i][j]=false;
-            }
-        }
-    }
 
 
     /**
@@ -69,8 +60,8 @@ public class JugadorPc {
         do {
             pcX = random.nextInt(10);
             pcY = random.nextInt(10);
-            disparosPc[pcX][pcY] = true;
-        }while (disparosPc[pcX][pcY] != true);
+            casillasPc[pcX][pcY].setDisparo(true);
+        }while (casillasPc[pcX][pcY].isDisparo() != true);
     }
 
 
@@ -78,27 +69,25 @@ public class JugadorPc {
 
     }
 
-    public int[][] getBarcosPc() {
-        return barcosPc;
+    public Casillas[][] getBarcosPc() {
+        return casillasPc;
     }
 
-    public boolean[][] getDisparosPc() {
-        return disparosPc;
-    }
+
 
 
     public void mostrar(){
-        for (int x=0; x < barcosPc.length; x++){
-            for (int y=0; y < barcosPc[x].length; y++)
-                System.out.print(" | " + barcosPc[x][y]+ " | ");
+        for (int x=0; x < casillasPc.length; x++){
+            for (int y=0; y < casillasPc[x].length; y++)
+                System.out.print(" | " + casillasPc[x][y].getIdbarco()+ " | ");
             System.out.println("\n--------------------------------------------------------------");
         }
     }
 
     public void mostrarDisparos(){
-        for (int x=0; x < disparosPc.length; x++){
-            for (int y=0; y < disparosPc[x].length; y++)
-                System.out.print(" | " + disparosPc[x][y]+ " | ");
+        for (int x=0; x < casillasPc.length; x++){
+            for (int y=0; y < casillasPc[x].length; y++)
+                System.out.print(" | " + casillasPc[x][y].isDisparo()+ " | ");
             System.out.println("\n--------------------------------------------------------------");
         }
     }
