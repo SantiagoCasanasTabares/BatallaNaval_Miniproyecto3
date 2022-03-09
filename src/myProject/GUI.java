@@ -17,7 +17,7 @@ public class GUI extends JFrame {
     private JLabel imagentitulo;
     private Escucha escucha;
     private JPanel panelPrincipal, panelPosicion;
-    private JButton mostrar, disparar;
+    private JButton mostrar, disparar, ponerBarcos;
 
     /**
      * Constructor of GUI class
@@ -71,19 +71,28 @@ public class GUI extends JFrame {
         constraints.gridwidth = 2;
         this.add(imagentitulo, constraints);
 
-        disparar = new JButton();
+
+        mostrar = new JButton("Mostrar");
         constraints.gridx = 0;
         constraints.gridy = 1;
+        mostrar.addActionListener(escucha);
+        //constraints.gridwidth = 2;
+        this.add(mostrar, constraints);
+
+        disparar = new JButton("disparar");
+        constraints.gridx = 0;
+        constraints.gridy = 2;
         disparar.addActionListener(escucha);
         //constraints.gridwidth = 2;
         this.add(disparar, constraints);
 
-        mostrar = new JButton();
+
+        ponerBarcos = new JButton("Poner barcos");
         constraints.gridx = 0;
-        constraints.gridy = 2;
-        mostrar.addActionListener(escucha);
+        constraints.gridy = 3;
+        ponerBarcos.addActionListener(escucha);
         //constraints.gridwidth = 2;
-        this.add(mostrar, constraints);
+        this.add(ponerBarcos, constraints);
 
     }
 
@@ -110,13 +119,18 @@ public class GUI extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource()==mostrar){
-                jugadorPc.disparar();
+                //jugadorPc.disparar();
                 jugadorPc.mostrarDisparos();
+                jugadorPc.mostrar();
                 System.out.println("barcos");
-            }else{
+            }else if (e.getSource()==disparar){
                 jugadorPc.disparar();
                 jugadorPc.mostrarDisparos();
                 System.out.println("dispara");
+            }else{
+                jugadorPc.posicionarBarcos();
+                jugadorPc.mostrar();
+                System.out.println("Puso los barcos");
             }
         }
     }
