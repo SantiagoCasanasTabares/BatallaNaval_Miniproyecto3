@@ -31,10 +31,10 @@ public class Casillas extends JLabel {
         }
     }
 
-    public void cambiarnumero(){
+    public void cambiarNumero(){
         if(disparo && idbarco==0){
             this.idImagen=1;
-        }else if(disparo && idbarco!=1){
+        }else if(disparo && idbarco!=0){
             this.idImagen=2;
         }
     }

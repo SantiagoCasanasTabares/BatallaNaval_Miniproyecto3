@@ -42,8 +42,7 @@ public class JugadorPc {
     public void arrayBidCasillas(){
         for (int i=0; i < casillasPc.length; i++){
             for (int j=0; j < casillasPc.length; j++){
-                casillasPc[i][j]=;
-
+                casillasPc[i][j] = new Casillas(0, false);
             }
         }
     }
@@ -66,15 +65,67 @@ public class JugadorPc {
 
 
     public void posicionarBarcos(){
+        int numBarco = 0;
+        int fila = 0;
+
+        while (numBarco < 10){
+
+            int casillas = barcos.get(numBarco).getCasillasPorBarco();
+            int columna = 0;
+
+            switch (casillas){
+                case 1: columna = random.nextInt(10);
+                    break;
+                case 2: columna = random.nextInt(9);
+                    break;
+                case 3: columna = random.nextInt(8);
+                    break;
+                case 4: columna = random.nextInt(7);
+                    break;
+            }
+
+            /**
+             * necesitamos un for que convierta el 0 del idBarco de la casilla a su identidicador
+             */
+
+            for (int vidaBarco = barcos.get(numBarco).getCasillasPorBarco();vidaBarco > 0 ; vidaBarco--){
+                if (casillas==4){
+                    casillasPc[fila][columna].setIdbarco(4);
+                    columna++;
+                }else if (casillas==3){
+                    casillasPc[fila][columna].setIdbarco(3);
+                    columna++;
+                }else if (casillas==2){
+                    casillasPc[fila][columna].setIdbarco(2);
+                    columna++;
+                }else{
+                    casillasPc[fila][columna].setIdbarco(1);
+                    columna++;
+                }
+
+            }
+
+            fila++;
+            numBarco++;
+
+        }
 
     }
+
+    /**
+     * Falta el metodo para saber que se recibió un disparo y asi cambiar la imagen
+     * @return
+     */
+
 
     public Casillas[][] getBarcosPc() {
         return casillasPc;
     }
 
 
-
+    public ArrayList<Barco> getBarcos() {
+        return barcos;
+    }
 
     public void mostrar(){
         for (int x=0; x < casillasPc.length; x++){
