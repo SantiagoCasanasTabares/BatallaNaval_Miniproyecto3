@@ -121,7 +121,8 @@ public class GUI extends JFrame {
             if (e.getSource()==mostrar){
                 //jugadorPc.disparar();
                 jugadorPc.mostrarDisparos();
-                jugadorPc.mostrar();
+                jugadorPc.mostrarPos();
+                System.out.println(jugadorPc.posicionDelElemento(jugadorPc.getBarcosPc(),0));
                 System.out.println("barcos");
             }else if (e.getSource()==disparar){
                 jugadorPc.disparar();
@@ -130,6 +131,7 @@ public class GUI extends JFrame {
             }else{
                 jugadorPc.posicionarBarcos();
                 jugadorPc.mostrar();
+                System.out.println(jugadorPc.posicionDelElemento(jugadorPc.getBarcosPc(),4));
                 System.out.println("Puso los barcos");
             }
         }

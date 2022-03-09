@@ -40,14 +40,38 @@ public class JugadorPc {
     }
 
     public void arrayBidCasillas(){
+        int posicion=0;
+
         for (int i=0; i < casillasPc.length; i++){
             for (int j=0; j < casillasPc.length; j++){
                 casillasPc[i][j] = new Casillas(0, false);
+                casillasPc[i][j].setPosicion(posicion);
+                /*casillasPc[i][j].setX(x);
+                casillasPc[i][j].setY(y);
+                y++;*/
+                posicion++;
             }
+            //y=0;
+           //x++;
         }
     }
 
 
+    public int[]  posicionDelElemento (Casillas[][] matriz, int numero){
+        int[] posicion=new int[2];
+
+
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[0].length; j++) {
+
+                if(matriz[i][j].getPosicion()==numero){
+                    posicion[0]=i;
+                    posicion[1]=j;
+                }
+            }
+        }
+        return posicion;
+    }
 
     /**
      * genera una coordenada aleatoria y marcaesa posicion como true para
@@ -112,6 +136,7 @@ public class JugadorPc {
 
     }
 
+
     /**
      * Falta el metodo para saber que se recibió un disparo y asi cambiar la imagen
      * @return
@@ -127,10 +152,19 @@ public class JugadorPc {
         return barcos;
     }
 
+
     public void mostrar(){
         for (int x=0; x < casillasPc.length; x++){
             for (int y=0; y < casillasPc[x].length; y++)
                 System.out.print(" | " + casillasPc[x][y].getIdbarco()+ " | ");
+            System.out.println("\n--------------------------------------------------------------");
+        }
+    }
+
+    public void mostrarPos(){
+        for (int x=0; x < casillasPc.length; x++){
+            for (int y=0; y < casillasPc[x].length; y++)
+                System.out.print(" | " + casillasPc[x][y].getPosicion()+" | ");
             System.out.println("\n--------------------------------------------------------------");
         }
     }
