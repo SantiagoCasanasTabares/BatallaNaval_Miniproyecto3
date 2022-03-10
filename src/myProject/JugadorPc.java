@@ -88,7 +88,7 @@ public class JugadorPc {
     }
 
 
-    public void posicionarBarcos(){
+    public void ponerEnFilas(){
         int numBarco = 0;
         int fila = 0;
 
@@ -126,14 +126,70 @@ public class JugadorPc {
                     casillasPc[fila][columna].setIdbarco(1);
                     columna++;
                 }
-
             }
 
             fila++;
             numBarco++;
 
         }
+    }
 
+
+    public void ponerEnColumnas(){
+        int numBarco = 0;
+        int columna = 0;
+
+        while (numBarco < 10){
+
+            int casillas = barcos.get(numBarco).getCasillasPorBarco();
+            int fila = 0;
+
+            switch (casillas){
+                case 1: fila = random.nextInt(10);
+                    break;
+                case 2: fila = random.nextInt(9);
+                    break;
+                case 3: fila = random.nextInt(8);
+                    break;
+                case 4: fila = random.nextInt(7);
+                    break;
+            }
+
+            /**
+             * necesitamos un for que convierta el 0 del idBarco de la casilla a su identidicador
+             */
+
+            for (int vidaBarco = barcos.get(numBarco).getCasillasPorBarco();vidaBarco > 0 ; vidaBarco--){
+                if (casillas==4){
+                    casillasPc[fila][columna].setIdbarco(4);
+                    fila++;
+                }else if (casillas==3){
+                    casillasPc[fila][columna].setIdbarco(3);
+                    fila++;
+                }else if (casillas==2){
+                    casillasPc[fila][columna].setIdbarco(2);
+                    fila++;
+                }else{
+                    casillasPc[fila][columna].setIdbarco(1);
+                    fila++;
+                }
+            }
+
+            columna++;
+            numBarco++;
+
+        }
+    }
+
+
+    public void posicionarBarcos(){
+        int orientacion = random.nextInt(2);
+
+        if (orientacion==0){
+            ponerEnColumnas();
+        }else{
+            ponerEnFilas();
+        }
     }
 
 
