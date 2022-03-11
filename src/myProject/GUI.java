@@ -2,6 +2,8 @@ package myProject;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +20,7 @@ public class GUI extends JFrame {
     private Escucha escucha;
     private JPanel panelPrincipal, panelPosicion;
     private JButton mostrar, disparar, ponerBarcos;
+    private JugadorPc pc;
 
     /**
      * Constructor of GUI class
@@ -47,7 +50,7 @@ public class GUI extends JFrame {
          * Create Listener Object and Control Object
          */
         escucha = new Escucha();
-
+        pc = new JugadorPc();
 
 
         /**
@@ -68,20 +71,20 @@ public class GUI extends JFrame {
         imagentitulo.setBorder(new EmptyBorder(0, 20, 20, 0));
         constraints.gridx = 0;
         constraints.gridy = 0;
-        constraints.gridwidth = 2;
+        //constraints.gridwidth = 2;
         this.add(imagentitulo, constraints);
 
 
         mostrar = new JButton("Mostrar");
         constraints.gridx = 0;
-        constraints.gridy = 1;
+        constraints.gridy = 2;
         mostrar.addActionListener(escucha);
         //constraints.gridwidth = 2;
         this.add(mostrar, constraints);
 
         disparar = new JButton("disparar");
         constraints.gridx = 0;
-        constraints.gridy = 2;
+        constraints.gridy = 3;
         disparar.addActionListener(escucha);
         //constraints.gridwidth = 2;
         this.add(disparar, constraints);
@@ -89,10 +92,37 @@ public class GUI extends JFrame {
 
         ponerBarcos = new JButton("Poner barcos");
         constraints.gridx = 0;
-        constraints.gridy = 3;
+        constraints.gridy = 4;
         ponerBarcos.addActionListener(escucha);
         //constraints.gridwidth = 2;
         this.add(ponerBarcos, constraints);
+
+
+        panelPrincipal = new JPanel(null);
+        panelPrincipal.setPreferredSize(new Dimension(390, 390));
+        TitledBorder titledBorderPalabra = BorderFactory.createTitledBorder(new EtchedBorder(EtchedBorder.LOWERED), "Panel Principal", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
+        panelPrincipal.setBorder(titledBorderPalabra);
+        titledBorderPalabra.setTitleColor(Color.black);
+        //panelPrincipal.setOpaque(false);
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        add(panelPrincipal, constraints);
+
+        for( int fila = 0 ; fila < pc.getBarcosPc().length; fila++ )
+        {
+            //Estando en la fila se recorrer las columnas
+            for( int columna = 0 ; columna < pc.getBarcosPc().length; columna++ )
+            {
+                //Se crea el boton y se agrega a las celda de la matriz
+
+                //Se agrega el boton al panel
+                panelPrincipal.add( pc.getBarcosPc()[fila][columna]);
+            }
+        }
+        /*constraints.gridwidth = 2;
+        constraints.gridheight = 1;*/
+        panelPrincipal.repaint();
+
 
     }
 
@@ -124,6 +154,7 @@ public class GUI extends JFrame {
                 jugadorPc.mostrarPos();
                 System.out.println(jugadorPc.posicionDelElemento(jugadorPc.getBarcosPc(),0));
                 System.out.println("barcos");
+
             }else if (e.getSource()==disparar){
                 jugadorPc.disparar();
                 jugadorPc.mostrarDisparos();

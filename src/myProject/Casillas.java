@@ -2,7 +2,7 @@ package myProject;
 
 import javax.swing.*;
 
-public class Casillas extends JLabel {
+public class Casillas extends JButton {
     private int idbarco, idImagen, x, y, posicion;
     private boolean disparo;
     private ImageIcon imagenAgua, imagenFallo, imagenTocado, imagenHundido;
@@ -15,7 +15,6 @@ public class Casillas extends JLabel {
         imagenFallo = new ImageIcon(getClass().getResource("/Resources/fallo.png"));
         imagenTocado = new ImageIcon(getClass().getResource("/Resources/tocado.png"));
         imagenHundido = new ImageIcon(getClass().getResource("/Resources/hundido.png"));
-
     }
 
     public void setIdImagen(){
