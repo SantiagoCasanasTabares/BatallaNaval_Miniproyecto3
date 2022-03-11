@@ -46,6 +46,9 @@ public class JugadorPc {
             for (int j=0; j < casillasPc.length; j++){
                 casillasPc[i][j] = new Casillas(0, false);
                 casillasPc[i][j].setPosicion(posicion);
+                casillasPc[i][j].setIdImagen();
+                casillasPc[i][j].setBounds((i*36)+10,(j*36)+20,36,36);
+                casillasPc[i][j].setSize(36,36);
                 /*casillasPc[i][j].setX(x);
                 casillasPc[i][j].setY(y);
                 y++;*/
@@ -58,8 +61,16 @@ public class JugadorPc {
 
 
     public int[]  posicionDelElemento (Casillas[][] matriz, int numero){
-        int[] posicion=new int[2];
 
+        int[][] posiciones = new int[10][10];
+
+        for (int k=0; k < posiciones.length; k++) {
+            for (int l = 0; l < posiciones.length; l++) {
+                posiciones[k][l] = matriz[k][l].getPosicion();
+            }
+        }
+
+        int[] posicion=new int[2];
 
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[0].length; j++) {
