@@ -47,8 +47,6 @@ public class JugadorPc {
                 casillasPc[i][j] = new Casillas(0, false);
                 casillasPc[i][j].setPosicion(posicion);
                 casillasPc[i][j].setIdImagen();
-                casillasPc[i][j].setBounds((i*36)+10,(j*36)+20,36,36);
-                casillasPc[i][j].setSize(36,36);
                 /*casillasPc[i][j].setX(x);
                 casillasPc[i][j].setY(y);
                 y++;*/
@@ -96,6 +94,9 @@ public class JugadorPc {
             pcY = random.nextInt(10);
             casillasPc[pcX][pcY].setDisparo(true);
         }while (casillasPc[pcX][pcY].isDisparo() != true);
+
+
+
     }
 
 

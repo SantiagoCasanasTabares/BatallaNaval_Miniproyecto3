@@ -108,20 +108,7 @@ public class GUI extends JFrame {
         constraints.gridy = 1;
         add(panelPrincipal, constraints);
 
-        for( int fila = 0 ; fila < pc.getBarcosPc().length; fila++ )
-        {
-            //Estando en la fila se recorrer las columnas
-            for( int columna = 0 ; columna < pc.getBarcosPc().length; columna++ )
-            {
-                //Se crea el boton y se agrega a las celda de la matriz
 
-                //Se agrega el boton al panel
-                panelPrincipal.add( pc.getBarcosPc()[fila][columna]);
-            }
-        }
-        /*constraints.gridwidth = 2;
-        constraints.gridheight = 1;*/
-        panelPrincipal.repaint();
 
 
     }
@@ -154,6 +141,32 @@ public class GUI extends JFrame {
                 jugadorPc.mostrarPos();
                 System.out.println(jugadorPc.posicionDelElemento(jugadorPc.getBarcosPc(),0));
                 System.out.println("barcos");
+
+                JButton[][] botones = new JButton[10][10];
+
+
+                for( int fila = 0 ; fila < pc.getBarcosPc().length; fila++ )
+                {
+                    //Estando en la fila se recorrer las columnas
+                    for( int columna = 0 ; columna < pc.getBarcosPc().length; columna++ )
+                    {
+                        //Se crea el boton y se agrega a las celda de la matriz
+
+                        //Se agrega el boton al panel
+                        pc.getBarcosPc()[fila][columna].setBounds((fila*36)+10,(columna*36)+20,36,36);
+                        pc.getBarcosPc()[fila][columna].setSize(36,36);
+                        pc.getBarcosPc()[fila][columna].setVisible(true);
+                        panelPrincipal.add( pc.getBarcosPc()[fila][columna]);
+                        panelPrincipal.repaint();
+                        panelPrincipal.updateUI();
+                        panelPrincipal.validate();
+                    }
+                }
+
+                panelPrincipal.repaint();
+                panelPrincipal.updateUI();
+                panelPrincipal.validate();
+
 
             }else if (e.getSource()==disparar){
                 jugadorPc.disparar();
