@@ -35,17 +35,20 @@ public class JugadorHumano {
     }
 
     public void arrayBidCasillasJugador(){
-        int x=0, y=0;
+        int posicion=0;
 
         for (int i=0; i < casillasJugador.length; i++){
             for (int j=0; j < casillasJugador.length; j++){
                 casillasJugador[i][j] = new Casillas(0, false);
-                casillasJugador[i][j].setX(x);
-                casillasJugador[i][j].setY(y);
-                y++;
+                casillasJugador[i][j].setPosicion(posicion);
+                casillasJugador[i][j].setIdImagen();
+                /*casillasPc[i][j].setX(x);
+                casillasPc[i][j].setY(y);
+                y++;*/
+                posicion++;
             }
-            y=0;
-            x++;
+            //y=0;
+            //x++;
         }
     }
 
