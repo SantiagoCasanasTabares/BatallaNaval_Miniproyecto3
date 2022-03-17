@@ -21,6 +21,7 @@ public class GUI extends JFrame {
     private JPanel panelPrincipal, panelPosicion;
     private JButton mostrar, disparar, ponerBarcos;
     private JugadorPc pc;
+    private JugadorHumano humano;
 
     /**
      * Constructor of GUI class
@@ -51,6 +52,7 @@ public class GUI extends JFrame {
          */
         escucha = new Escucha();
         pc = new JugadorPc();
+        humano = new JugadorHumano();
 
 
         /**
@@ -71,13 +73,15 @@ public class GUI extends JFrame {
         imagentitulo.setBorder(new EmptyBorder(0, 20, 20, 0));
         constraints.gridx = 0;
         constraints.gridy = 0;
-        //constraints.gridwidth = 2;
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.anchor = GridBagConstraints.NORTHEAST;
         this.add(imagentitulo, constraints);
 
 
         mostrar = new JButton("Mostrar");
         constraints.gridx = 0;
         constraints.gridy = 2;
+        constraints.fill = GridBagConstraints.NONE;
         mostrar.addActionListener(escucha);
         //constraints.gridwidth = 2;
         this.add(mostrar, constraints);
@@ -85,6 +89,8 @@ public class GUI extends JFrame {
         disparar = new JButton("disparar");
         constraints.gridx = 0;
         constraints.gridy = 3;
+        constraints.fill = GridBagConstraints.NONE;
+
         disparar.addActionListener(escucha);
         //constraints.gridwidth = 2;
         this.add(disparar, constraints);
@@ -93,6 +99,7 @@ public class GUI extends JFrame {
         ponerBarcos = new JButton("Poner barcos");
         constraints.gridx = 0;
         constraints.gridy = 4;
+        constraints.fill = GridBagConstraints.NONE;
         ponerBarcos.addActionListener(escucha);
         //constraints.gridwidth = 2;
         this.add(ponerBarcos, constraints);
@@ -104,11 +111,44 @@ public class GUI extends JFrame {
         panelPrincipal.setBorder(titledBorderPalabra);
         titledBorderPalabra.setTitleColor(Color.black);
         //panelPrincipal.setOpaque(false);
-        constraints.gridx = 0;
+        constraints.gridx = 1;
         constraints.gridy = 1;
         add(panelPrincipal, constraints);
 
+        panelPosicion = new JPanel(null);
+        panelPosicion.setPreferredSize(new Dimension(390, 390));
+        TitledBorder titledBorderPalabra2 = BorderFactory.createTitledBorder(new EtchedBorder(EtchedBorder.LOWERED), "Panel Posición", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
+        panelPosicion.setBorder(titledBorderPalabra2);
+        titledBorderPalabra2.setTitleColor(Color.black);
+        //panelPrincipal.setOpaque(false);
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        add(panelPosicion, constraints);
 
+
+        /*for( int fila = 0 ; fila < humano.getCasillasJugador().length; fila++ )
+        {
+            unaFila=fila;
+            //Estando en la fila se recorrer las columnas
+            for( int columna = 0 ; columna < humano.getCasillasJugador().length; columna++ )
+            {
+                unaColumna=columna;
+                //Se crea el boton y se agrega a las celda de la matriz
+
+                //Se agrega el boton al panel
+                humano.getCasillasJugador()[fila][columna].setBounds((fila*36)+10,(columna*36)+20,36,36);
+                humano.getCasillasJugador()[fila][columna].setSize(36,36);
+                humano.getCasillasJugador()[fila][columna].setVisible(true);
+                humano.getCasillasJugador()[fila][columna].addActionListener(escucha);
+                unaFila++;
+                unaColumna++;
+                panelPosicion.add( humano.getCasillasJugador()[fila][columna]);
+                panelPosicion.repaint();
+                panelPosicion.updateUI();
+                panelPosicion.validate();
+
+            }
+        }*/
 
 
     }
@@ -130,19 +170,20 @@ public class GUI extends JFrame {
      */
     private class Escucha implements ActionListener {
 
-        JugadorPc jugadorPc = new JugadorPc();
-
+        int unaFila=0;
+        int unaColumna=0;
 
         @Override
         public void actionPerformed(ActionEvent e) {
+
             if (e.getSource()==mostrar){
                 //jugadorPc.disparar();
-                jugadorPc.mostrarDisparos();
-                jugadorPc.mostrarPos();
-                System.out.println(jugadorPc.posicionDelElemento(jugadorPc.getBarcosPc(),0));
+                pc.mostrarDisparos();
+                pc.mostrarPos();
+                System.out.println(pc.posicionDelElemento(pc.getBarcosPc(),0));
                 System.out.println("barcos");
 
-                JButton[][] botones = new JButton[10][10];
+                //JButton[][] botones = new JButton[10][10];
 
 
                 for( int fila = 0 ; fila < pc.getBarcosPc().length; fila++ )
@@ -163,20 +204,38 @@ public class GUI extends JFrame {
                     }
                 }
 
-                panelPrincipal.repaint();
-                panelPrincipal.updateUI();
-                panelPrincipal.validate();
+                for( int fila = 0 ; fila < humano.getCasillasJugador().length; fila++ )
+                {
+                    //Estando en la fila se recorrer las columnas
+                    for( int columna = 0 ; columna < humano.getCasillasJugador().length; columna++ )
+                    {
+                        //Se crea el boton y se agrega a las celda de la matriz
 
+                        //Se agrega el boton al panel
+                        humano.getCasillasJugador()[fila][columna].setBounds((fila*36)+10,(columna*36)+20,36,36);
+                        humano.getCasillasJugador()[fila][columna].setSize(36,36);
+                        humano.getCasillasJugador()[fila][columna].setVisible(true);
+                        humano.getCasillasJugador()[fila][columna].addActionListener(escucha);
+                        panelPosicion.add( humano.getCasillasJugador()[fila][columna]);
+                        panelPosicion.repaint();
+                        panelPosicion.updateUI();
+                        panelPosicion.validate();
 
+                    }
+                }
             }else if (e.getSource()==disparar){
-                jugadorPc.disparar();
-                jugadorPc.mostrarDisparos();
+                pc.disparar();
+                pc.mostrarDisparos();
                 System.out.println("dispara");
-            }else{
-                jugadorPc.posicionarBarcos();
-                jugadorPc.mostrar();
-                System.out.println(jugadorPc.posicionDelElemento(jugadorPc.getBarcosPc(),4));
+            }else if(e.getSource()==ponerBarcos){
+                pc.posicionarBarcos();
+                pc.mostrar();
+                System.out.println(pc.posicionDelElemento(pc.getBarcosPc(),4));
                 System.out.println("Puso los barcos");
+            }else if(e.getSource()==humano.getCasillasJugador()[unaFila][unaColumna]){
+                for(int i=unaFila; i<4;i++){
+                    humano.getCasillasJugador()[i][0].setVisible(false);
+                }
             }
         }
     }

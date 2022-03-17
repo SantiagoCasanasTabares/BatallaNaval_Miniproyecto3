@@ -1,6 +1,8 @@
 package myProject;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Casillas extends JButton {
     private int idbarco, idImagen, posicion;
@@ -15,6 +17,7 @@ public class Casillas extends JButton {
         imagenFallo = new ImageIcon(getClass().getResource("/Resources/fallo.png"));
         imagenTocado = new ImageIcon(getClass().getResource("/Resources/tocado.png"));
         imagenHundido = new ImageIcon(getClass().getResource("/Resources/hundido.png"));
+
     }
 
     public void setIdImagen(){
@@ -62,4 +65,5 @@ public class Casillas extends JButton {
     public void setPosicion(int posicion) {
         this.posicion = posicion;
     }
+
 }
