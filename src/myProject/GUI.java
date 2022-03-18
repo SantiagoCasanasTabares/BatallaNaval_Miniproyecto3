@@ -7,6 +7,8 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * This class is used for ...
@@ -168,10 +170,8 @@ public class GUI extends JFrame {
     /**
      * inner class that extends an Adapter Class or implements Listeners used by GUI class
      */
-    private class Escucha implements ActionListener {
+    private class Escucha implements ActionListener, MouseListener {
 
-        int unaFila=0;
-        int unaColumna=0;
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -215,7 +215,7 @@ public class GUI extends JFrame {
                         humano.getCasillasJugador()[fila][columna].setBounds((fila*36)+10,(columna*36)+20,36,36);
                         humano.getCasillasJugador()[fila][columna].setSize(36,36);
                         humano.getCasillasJugador()[fila][columna].setVisible(true);
-                        humano.getCasillasJugador()[fila][columna].addActionListener(escucha);
+                        humano.getCasillasJugador()[fila][columna].addMouseListener(escucha);
                         panelPosicion.add( humano.getCasillasJugador()[fila][columna]);
                         panelPosicion.repaint();
                         panelPosicion.updateUI();
@@ -232,11 +232,40 @@ public class GUI extends JFrame {
                 pc.mostrar();
                 System.out.println(pc.posicionDelElemento(pc.getBarcosPc(),4));
                 System.out.println("Puso los barcos");
-            }else if(e.getSource()==humano.getCasillasJugador()[unaFila][unaColumna]){
-                for(int i=unaFila; i<4;i++){
-                    humano.getCasillasJugador()[i][0].setVisible(false);
+            }
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            for( int fila = 0 ; fila < humano.getCasillasJugador().length; fila++ )
+            {
+                for( int columna = 0 ; columna < humano.getCasillasJugador().length; columna++ )
+                {
+                    if(e.getSource()==humano.getCasillasJugador()[fila][columna]){
+                        System.out.println(fila+","+columna);
+                    }
                 }
             }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
         }
     }
 }
