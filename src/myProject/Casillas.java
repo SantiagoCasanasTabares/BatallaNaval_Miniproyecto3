@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Casillas extends JButton {
+public class Casillas extends JLabel {
     private int idbarco, idImagen, posicion;
     private boolean disparo;
     private ImageIcon imagenAgua, imagenFallo, imagenTocado, imagenHundido;
