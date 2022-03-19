@@ -1,12 +1,14 @@
 package myProject;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Casillas extends JButton {
+public class Casillas extends JLabel {
     private int idbarco, idImagen, posicion;
     private boolean disparo;
     private ImageIcon imagenAgua, imagenFallo, imagenTocado, imagenHundido;
-    
+
     public Casillas(int id2, boolean disparo2){
         this.idbarco = id2;
         this.disparo = disparo2;
@@ -15,18 +17,19 @@ public class Casillas extends JButton {
         imagenFallo = new ImageIcon(getClass().getResource("/Resources/fallo.png"));
         imagenTocado = new ImageIcon(getClass().getResource("/Resources/tocado.png"));
         imagenHundido = new ImageIcon(getClass().getResource("/Resources/hundido.png"));
+
     }
 
     public void setIdImagen(){
         switch (idImagen){
             case 0: this.setIcon(imagenAgua);
-            break;
+                break;
             case 1: this.setIcon(imagenFallo);
-            break;
+                break;
             case 2: this.setIcon(imagenTocado);
-            break;
+                break;
             case 3: this.setIcon(imagenHundido);
-            break;
+                break;
         }
     }
 
@@ -62,4 +65,5 @@ public class Casillas extends JButton {
     public void setPosicion(int posicion) {
         this.posicion = posicion;
     }
+
 }

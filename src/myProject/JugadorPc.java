@@ -8,6 +8,7 @@ public class JugadorPc {
     private ArrayList<Barco> barcos;
     private Casillas[][] casillasPc;
     private Random random;
+    private int numBarco = 0;
 
 
     public JugadorPc() {
@@ -53,7 +54,7 @@ public class JugadorPc {
                 posicion++;
             }
             //y=0;
-           //x++;
+            //x++;
         }
     }
 
@@ -101,7 +102,7 @@ public class JugadorPc {
 
 
     public void ponerEnFilas(){
-        int numBarco = 0;
+        numBarco = 0;
         int fila = 0;
 
         while (numBarco < 10){
@@ -148,7 +149,7 @@ public class JugadorPc {
 
 
     public void ponerEnColumnas(){
-        int numBarco = 0;
+        numBarco = 0;
         int columna = 0;
 
         while (numBarco < 10){
@@ -244,7 +245,10 @@ public class JugadorPc {
             System.out.println("\n--------------------------------------------------------------");
         }
     }
-}
 
+    public int getNumBarco() {
+        return numBarco;
+    }
+}
 
 

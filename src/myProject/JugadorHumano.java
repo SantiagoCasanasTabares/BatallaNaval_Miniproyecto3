@@ -52,4 +52,7 @@ public class JugadorHumano {
         }
     }
 
+    public Casillas[][] getCasillasJugador() {
+        return casillasJugador;
+    }
 }
