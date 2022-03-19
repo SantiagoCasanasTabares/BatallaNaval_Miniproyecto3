@@ -197,6 +197,7 @@ public class GUI extends JFrame {
                         pc.getBarcosPc()[fila][columna].setBounds((fila*36)+10,(columna*36)+20,36,36);
                         pc.getBarcosPc()[fila][columna].setSize(36,36);
                         pc.getBarcosPc()[fila][columna].setVisible(true);
+                        pc.getBarcosPc()[fila][columna].addMouseListener(escucha);
                         panelPrincipal.add( pc.getBarcosPc()[fila][columna]);
                         panelPrincipal.repaint();
                         panelPrincipal.updateUI();
@@ -242,7 +243,24 @@ public class GUI extends JFrame {
                 for( int columna = 0 ; columna < humano.getCasillasJugador().length; columna++ )
                 {
                     if(e.getSource()==humano.getCasillasJugador()[fila][columna]){
-                        System.out.println(fila+","+columna);
+                        if(e.getButton()==MouseEvent.BUTTON1){
+                            for (int i=fila;i<fila+3;i++){
+                                humano.getCasillasJugador()[i][columna].setVisible(false);
+                            }
+                        }else if(e.getButton()==MouseEvent.BUTTON3){
+                            for (int j=columna;j<columna+3;j++){
+                                humano.getCasillasJugador()[fila][j].setVisible(false);
+                            }
+                        }
+                    }
+                }
+            }
+            for( int fila = 0 ; fila < pc.getBarcosPc().length; fila++ )
+            {
+                for( int columna = 0 ; columna < pc.getBarcosPc().length; columna++ )
+                {
+                    if(e.getSource()==pc.getBarcosPc()[fila][columna]){
+                        System.out.println(pc.getBarcosPc()[fila][columna].getIdbarco());
                     }
                 }
             }
