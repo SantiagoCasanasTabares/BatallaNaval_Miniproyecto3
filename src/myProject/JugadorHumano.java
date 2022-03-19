@@ -1,11 +1,13 @@
 package myProject;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class JugadorHumano {
     private Barco barco1, barco2, barco3, barco4, barco5, barco6, barco7, barco8, barco9, barco10;
     private ArrayList<Barco> barcosJugador;
     private Casillas[][] casillasJugadorPosicion, casillasJugadorPrincipal;
+    private Random random;
 
     public JugadorHumano() {
         barcosJugador = new ArrayList<>();
@@ -29,6 +31,7 @@ public class JugadorHumano {
         barcosJugador.add(barco9);
         barco10 = new Barco("f");
         barcosJugador.add(barco10);
+        random = new Random();
 
         casillasJugadorPosicion = new Casillas[10][10];
         casillasJugadorPrincipal = new Casillas[10][10];
@@ -59,8 +62,35 @@ public class JugadorHumano {
     }
 
 
-    public Casillas[][] getCasillasJugadorPrincipal() {
-        return casillasJugadorPrincipal;
+    /**
+     * genera una coordenada aleatoria y marca esa posicion como true para
+     * recordar que ahí ya hubo un disparo, en caso de haber un disparo previo
+     * realiza la instrucción de nuevo, simulando el disparo del pc.
+     */
+    public void disparar(){
+        int pcX, pcY;
+        do {
+            pcX = random.nextInt(10);
+            pcY = random.nextInt(10);
+            casillasJugadorPosicion[pcX][pcY].setDisparo(true);
+        }while (casillasJugadorPosicion[pcX][pcY].isDisparo() != true);
+
+        casillasJugadorPosicion[pcX][pcY].cambiarNumero();
+        casillasJugadorPosicion[pcX][pcY].setIdImagen();
+
+    }
+
+
+    public int getIdBarcoJugador(Barco barcoJugador) {
+        return barcoJugador.getCasillasPorBarco();
+    }
+
+    public ArrayList<Barco> getBarcosJugador() {
+        return barcosJugador;
+    }
+
+    public void setBarcosJugador(ArrayList<Barco> barcosJugador) {
+        this.barcosJugador = barcosJugador;
     }
 
     public Casillas[][] getCasillasJugadorPosicion() {

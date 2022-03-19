@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 public class Casillas extends JLabel {
     private int idbarco, idImagen, posicion;
     private boolean disparo;
-    private ImageIcon imagenAgua, imagenFallo, imagenTocado, imagenHundido;
+    private ImageIcon imagenAgua, imagenFallo, imagenTocado, imagenHundido, imagenBarco;
     
     public Casillas(int id2, boolean disparo2){
         this.idbarco = id2;
@@ -17,6 +17,7 @@ public class Casillas extends JLabel {
         imagenFallo = new ImageIcon(getClass().getResource("/Resources/fallo.png"));
         imagenTocado = new ImageIcon(getClass().getResource("/Resources/tocado.png"));
         imagenHundido = new ImageIcon(getClass().getResource("/Resources/hundido.png"));
+        imagenBarco = new ImageIcon(getClass().getResource("/Resources/barco.png"));
 
     }
 
@@ -30,6 +31,8 @@ public class Casillas extends JLabel {
             break;
             case 3: this.setIcon(imagenHundido);
             break;
+            case 4: this.setIcon(imagenBarco);
+            break;
         }
     }
 
@@ -39,6 +42,10 @@ public class Casillas extends JLabel {
         }else if(disparo && idbarco!=0){
             this.idImagen=2;
         }
+    }
+
+    public void ponerBarco(){
+        this.idImagen=4;
     }
 
     public int getIdbarco() {
