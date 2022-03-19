@@ -83,22 +83,7 @@ public class JugadorPc {
         return posicion;
     }
 
-    /**
-     * genera una coordenada aleatoria y marcaesa posicion como true para
-     * recordar que ahí ya hubo un disparo, en caso de haber un disparo previo
-     * realiza la instrucción de nuevo.
-     */
-    public void disparar(){
-        int pcX, pcY;
-        do {
-            pcX = random.nextInt(10);
-            pcY = random.nextInt(10);
-            casillasPc[pcX][pcY].setDisparo(true);
-        }while (casillasPc[pcX][pcY].isDisparo() != true);
 
-
-
-    }
 
 
     public void ponerEnFilas(){

@@ -17,6 +17,16 @@ import java.awt.event.MouseListener;
  */
 public class GUI extends JFrame {
 
+    public static final String MENSAJE_AYUDA_INICIAL= "Bienvenido a batalla naval "
+            + "\nTienes en frente dos paneles: principal y de posición. "
+            + "\nEn el panel principal podrás realizar tus diaparos para "
+            + "\n intentar destruir los barcos del jugador pc. "
+            + "\nMientras que en el de posición ubicarás tus barcos, usando "
+            + "\nclic derecho para ubicarlos horizontalmente, e izquierdo "
+            + "\npara ubicarlos de manera vertical, teniendo a disposición: "
+            + "\n4 fragatas(1 casilla), 3 destructores(2 casillas), "
+            + "\n2 submarinos(3 casillas) y 1 portaaviones(4 casillas).  ";
+
     private ImageIcon titulo;
     private JLabel imagentitulo;
     private Escucha escucha;
@@ -201,6 +211,7 @@ public class GUI extends JFrame {
      * inner class that extends an Adapter Class or implements Listeners used by GUI class
      */
     private class Escucha implements ActionListener, MouseListener {
+        int barco=0;
 
 
         @Override
@@ -210,19 +221,19 @@ public class GUI extends JFrame {
                 //jugadorPc.disparar();
                 pc.mostrarDisparos();
                 pc.mostrarPos();
-                System.out.println(pc.posicionDelElemento(pc.getBarcosPc(),0));
-                System.out.println("barcos");
+
 
                 //JButton[][] botones = new JButton[10][10];
 
 
 
             }else if (e.getSource()==disparar){
-                pc.disparar();
                 pc.mostrarDisparos();
                 System.out.println("dispara");
             }else if(e.getSource()==jugar){
 
+                humano.setBarcosJugador(humano.getBarcosJugador());
+                JOptionPane.showMessageDialog(null, MENSAJE_AYUDA_INICIAL, "Como jugar", JOptionPane.DEFAULT_OPTION);
 
                 for( int fila = 0 ; fila < humano.getCasillasJugadorPosicion().length; fila++ )
                 {
@@ -247,10 +258,9 @@ public class GUI extends JFrame {
 
                 pc.posicionarBarcos();
                 pc.mostrar();
-                System.out.println(pc.posicionDelElemento(pc.getBarcosPc(),4));
-                System.out.println("Puso los barcos");
 
 
+                jugar.setEnabled(false);
 
             }else{
                 System.exit(0);
@@ -261,31 +271,80 @@ public class GUI extends JFrame {
 
         @Override
         public void mouseClicked(MouseEvent e) {
+
+            /**
+             * for para posicionar barcos
+             */
             for( int fila = 0 ; fila < humano.getCasillasJugadorPosicion().length; fila++ )
             {
                 for( int columna = 0 ; columna < humano.getCasillasJugadorPosicion().length; columna++ )
                 {
                     if(e.getSource()==humano.getCasillasJugadorPosicion()[fila][columna]){
+                        int casillasDelBarco= humano.getIdBarcoJugador(humano.getBarcosJugador().get(barco));
                         if(e.getButton()==MouseEvent.BUTTON1){
-                            for (int i=fila;i<fila+3;i++){
-                                humano.getCasillasJugadorPosicion()[i][columna].setVisible(false);
+                            for (int i=fila;i<fila+casillasDelBarco;i++){
+                                humano.getCasillasJugadorPosicion()[i][columna].ponerBarco();
+                                humano.getCasillasJugadorPosicion()[i][columna].setIdImagen();
                             }
                         }else if(e.getButton()==MouseEvent.BUTTON3){
-                            for (int j=columna;j<columna+3;j++){
-                                humano.getCasillasJugadorPosicion()[fila][j].setVisible(false);
+                            for (int j=columna;j<columna+casillasDelBarco;j++){
+                                humano.getCasillasJugadorPosicion()[fila][j].ponerBarco();
+                                humano.getCasillasJugadorPosicion()[fila][j].setIdImagen();
                             }
                         }
+                        System.out.println(barco);
+                        barco++;
                     }
                 }
             }
 
+            if(barco==10){
+                for( int fila = 0 ; fila < humano.getCasillasJugadorPosicion().length; fila++ ) {
+                    for (int columna = 0; columna < humano.getCasillasJugadorPosicion().length; columna++) {
+                        humano.getCasillasJugadorPosicion()[fila][columna].removeMouseListener(escucha);
+                    }
+                }
+            }
+
+
+            /**
+             * for para disparar
+             */
 
             for( int fila = 0 ; fila < pc.getBarcosPc().length; fila++ )
             {
                 for( int columna = 0 ; columna < pc.getBarcosPc().length; columna++ )
                 {
                     if(e.getSource()==pc.getBarcosPc()[fila][columna]){
-                        System.out.println(pc.getBarcosPc()[fila][columna].getIdbarco());
+
+                        humano.disparar();
+
+                        if(pc.getBarcosPc()[fila][columna].getIdbarco()==4){
+                            pc.getBarcosPc()[fila][columna].removeMouseListener(escucha);
+                            pc.getBarcosPc()[fila][columna].setDisparo(true);
+                            pc.getBarcosPc()[fila][columna].cambiarNumero();
+                            pc.getBarcosPc()[fila][columna].setIdImagen();
+                        }else if (pc.getBarcosPc()[fila][columna].getIdbarco()==3){
+                            pc.getBarcosPc()[fila][columna].removeMouseListener(escucha);
+                            pc.getBarcosPc()[fila][columna].setDisparo(true);
+                            pc.getBarcosPc()[fila][columna].cambiarNumero();
+                            pc.getBarcosPc()[fila][columna].setIdImagen();
+                        }else if (pc.getBarcosPc()[fila][columna].getIdbarco()==2){
+                            pc.getBarcosPc()[fila][columna].removeMouseListener(escucha);
+                            pc.getBarcosPc()[fila][columna].setDisparo(true);
+                            pc.getBarcosPc()[fila][columna].cambiarNumero();
+                            pc.getBarcosPc()[fila][columna].setIdImagen();
+                        }else if (pc.getBarcosPc()[fila][columna].getIdbarco()==1){
+                            pc.getBarcosPc()[fila][columna].removeMouseListener(escucha);
+                            pc.getBarcosPc()[fila][columna].setDisparo(true);
+                            pc.getBarcosPc()[fila][columna].cambiarNumero();
+                            pc.getBarcosPc()[fila][columna].setIdImagen();
+                        }else if (pc.getBarcosPc()[fila][columna].getIdbarco()==0){
+                            pc.getBarcosPc()[fila][columna].removeMouseListener(escucha);
+                            pc.getBarcosPc()[fila][columna].setDisparo(true);
+                            pc.getBarcosPc()[fila][columna].cambiarNumero();
+                            pc.getBarcosPc()[fila][columna].setIdImagen();
+                        }
                     }
                 }
             }
