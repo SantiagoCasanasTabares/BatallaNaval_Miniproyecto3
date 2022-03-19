@@ -20,8 +20,8 @@ public class GUI extends JFrame {
     private ImageIcon titulo;
     private JLabel imagentitulo;
     private Escucha escucha;
-    private JPanel panelPrincipal, panelPosicion;
-    private JButton mostrar, disparar, ponerBarcos;
+    private JPanel panelPrincipal, panelPosicion, panelTitulo, panelBotones;
+    private JButton mostrar, disparar, jugar, salir;
     private JugadorPc pc;
     private JugadorHumano humano;
 
@@ -34,7 +34,7 @@ public class GUI extends JFrame {
         //Default JFrame configuration
         this.setTitle("Battleship");
         this.pack();
-        this.setResizable(false);
+        this.setResizable(true);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,41 +70,19 @@ public class GUI extends JFrame {
         /**
          * tittle
          */
+
+        panelTitulo = new JPanel();
         titulo = new ImageIcon(getClass().getResource("/Resources/tittle.png"));
         imagentitulo = new JLabel(titulo);
-        imagentitulo.setBorder(new EmptyBorder(0, 20, 20, 0));
+        panelTitulo.add(imagentitulo, BorderLayout.CENTER);
+        panelTitulo.setPreferredSize(new Dimension(690, 200));
+        panelTitulo.setOpaque(false);
         constraints.gridx = 0;
         constraints.gridy = 0;
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.anchor = GridBagConstraints.NORTHEAST;
-        this.add(imagentitulo, constraints);
+        constraints.gridwidth = 2;
+        constraints.gridheight = 1;
+        add(panelTitulo, constraints);
 
-
-        mostrar = new JButton("Mostrar");
-        constraints.gridx = 0;
-        constraints.gridy = 2;
-        constraints.fill = GridBagConstraints.NONE;
-        mostrar.addActionListener(escucha);
-        //constraints.gridwidth = 2;
-        this.add(mostrar, constraints);
-
-        disparar = new JButton("disparar");
-        constraints.gridx = 0;
-        constraints.gridy = 3;
-        constraints.fill = GridBagConstraints.NONE;
-
-        disparar.addActionListener(escucha);
-        //constraints.gridwidth = 2;
-        this.add(disparar, constraints);
-
-
-        ponerBarcos = new JButton("Poner barcos");
-        constraints.gridx = 0;
-        constraints.gridy = 4;
-        constraints.fill = GridBagConstraints.NONE;
-        ponerBarcos.addActionListener(escucha);
-        //constraints.gridwidth = 2;
-        this.add(ponerBarcos, constraints);
 
 
         panelPrincipal = new JPanel(null);
@@ -112,9 +90,11 @@ public class GUI extends JFrame {
         TitledBorder titledBorderPalabra = BorderFactory.createTitledBorder(new EtchedBorder(EtchedBorder.LOWERED), "Panel Principal", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
         panelPrincipal.setBorder(titledBorderPalabra);
         titledBorderPalabra.setTitleColor(Color.black);
-        //panelPrincipal.setOpaque(false);
+        panelPrincipal.setOpaque(false);
         constraints.gridx = 1;
         constraints.gridy = 1;
+        constraints.gridwidth = 1;
+        constraints.gridheight = 1;
         add(panelPrincipal, constraints);
 
         panelPosicion = new JPanel(null);
@@ -122,35 +102,85 @@ public class GUI extends JFrame {
         TitledBorder titledBorderPalabra2 = BorderFactory.createTitledBorder(new EtchedBorder(EtchedBorder.LOWERED), "Panel Posición", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
         panelPosicion.setBorder(titledBorderPalabra2);
         titledBorderPalabra2.setTitleColor(Color.black);
-        //panelPrincipal.setOpaque(false);
+        panelPosicion.setOpaque(false);
         constraints.gridx = 0;
         constraints.gridy = 1;
+        constraints.gridwidth = 1;
+        constraints.gridheight = 1;
         add(panelPosicion, constraints);
 
 
-        /*for( int fila = 0 ; fila < humano.getCasillasJugador().length; fila++ )
+        //Panel donde se posiciona
+        for( int fila = 0 ; fila < humano.getCasillasJugadorPosicion().length; fila++ )
         {
-            unaFila=fila;
             //Estando en la fila se recorrer las columnas
-            for( int columna = 0 ; columna < humano.getCasillasJugador().length; columna++ )
+            for( int columna = 0 ; columna < humano.getCasillasJugadorPosicion().length; columna++ )
             {
-                unaColumna=columna;
                 //Se crea el boton y se agrega a las celda de la matriz
 
                 //Se agrega el boton al panel
-                humano.getCasillasJugador()[fila][columna].setBounds((fila*36)+10,(columna*36)+20,36,36);
-                humano.getCasillasJugador()[fila][columna].setSize(36,36);
-                humano.getCasillasJugador()[fila][columna].setVisible(true);
-                humano.getCasillasJugador()[fila][columna].addActionListener(escucha);
-                unaFila++;
-                unaColumna++;
-                panelPosicion.add( humano.getCasillasJugador()[fila][columna]);
+                humano.getCasillasJugadorPosicion()[fila][columna].setBounds((fila*36)+10,(columna*36)+20,36,36);
+                humano.getCasillasJugadorPosicion()[fila][columna].setSize(36,36);
+                humano.getCasillasJugadorPosicion()[fila][columna].setVisible(true);
+                //pc.getBarcosPc()[fila][columna].addMouseListener(escucha);
+                panelPosicion.add( humano.getCasillasJugadorPosicion()[fila][columna]);
+                panelPrincipal.repaint();
+                panelPrincipal.updateUI();
+                panelPrincipal.validate();
+            }
+        }
+
+        //panel donde se dispara
+        for( int fila = 0 ; fila < pc.getBarcosPc().length; fila++ )
+        {
+            //Estando en la fila se recorrer las columnas
+            for( int columna = 0 ; columna < pc.getBarcosPc().length; columna++ )
+            {
+                //Se crea el boton y se agrega a las celda de la matriz
+                pc.getBarcosPc()[fila][columna].setBounds((fila*36)+10,(columna*36)+20,36,36);
+                pc.getBarcosPc()[fila][columna].setSize(36,36);
+                pc.getBarcosPc()[fila][columna].setVisible(true);
+                //humano.getCasillasJugador()[fila][columna].addMouseListener(escucha);
+                panelPrincipal.add( pc.getBarcosPc()[fila][columna]);
                 panelPosicion.repaint();
                 panelPosicion.updateUI();
                 panelPosicion.validate();
 
             }
-        }*/
+        }
+
+
+        mostrar = new JButton("Mostrar");
+        constraints.fill = GridBagConstraints.NONE;
+        mostrar.addActionListener(escucha);
+        this.add(mostrar, constraints);
+
+
+        disparar = new JButton("disparar");
+        disparar.addActionListener(escucha);
+        this.add(disparar, constraints);
+
+
+        jugar = new JButton("Jugar");
+        jugar.addActionListener(escucha);
+        this.add(jugar, constraints);
+
+        salir = new JButton("Salir");
+        salir.addActionListener(escucha);
+        this.add(salir, constraints);
+
+        panelBotones = new JPanel();
+        panelBotones.setPreferredSize(new Dimension(690, 50));
+        panelBotones.setOpaque(false);
+        panelBotones.add(jugar);
+        panelBotones.add(disparar);
+        panelBotones.add(mostrar);
+        panelBotones.add(salir);
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        constraints.gridwidth = 2;
+        constraints.gridheight = 1;
+        add(panelBotones, constraints);
 
 
     }
@@ -186,75 +216,70 @@ public class GUI extends JFrame {
                 //JButton[][] botones = new JButton[10][10];
 
 
+
+            }else if (e.getSource()==disparar){
+                pc.disparar();
+                pc.mostrarDisparos();
+                System.out.println("dispara");
+            }else if(e.getSource()==jugar){
+
+
+                for( int fila = 0 ; fila < humano.getCasillasJugadorPosicion().length; fila++ )
+                {
+                    //Estando en la fila se recorrer las columnas
+                    for( int columna = 0 ; columna < humano.getCasillasJugadorPosicion().length; columna++ )
+                    {
+                        humano.getCasillasJugadorPosicion()[fila][columna].addMouseListener(escucha);
+                    }
+                }
+
+
                 for( int fila = 0 ; fila < pc.getBarcosPc().length; fila++ )
                 {
                     //Estando en la fila se recorrer las columnas
                     for( int columna = 0 ; columna < pc.getBarcosPc().length; columna++ )
                     {
-                        //Se crea el boton y se agrega a las celda de la matriz
 
-                        //Se agrega el boton al panel
-                        pc.getBarcosPc()[fila][columna].setBounds((fila*36)+10,(columna*36)+20,36,36);
-                        pc.getBarcosPc()[fila][columna].setSize(36,36);
-                        pc.getBarcosPc()[fila][columna].setVisible(true);
                         pc.getBarcosPc()[fila][columna].addMouseListener(escucha);
-                        panelPrincipal.add( pc.getBarcosPc()[fila][columna]);
-                        panelPrincipal.repaint();
-                        panelPrincipal.updateUI();
-                        panelPrincipal.validate();
-                    }
-                }
-
-                for( int fila = 0 ; fila < humano.getCasillasJugador().length; fila++ )
-                {
-                    //Estando en la fila se recorrer las columnas
-                    for( int columna = 0 ; columna < humano.getCasillasJugador().length; columna++ )
-                    {
-                        //Se crea el boton y se agrega a las celda de la matriz
-
-                        //Se agrega el boton al panel
-                        humano.getCasillasJugador()[fila][columna].setBounds((fila*36)+10,(columna*36)+20,36,36);
-                        humano.getCasillasJugador()[fila][columna].setSize(36,36);
-                        humano.getCasillasJugador()[fila][columna].setVisible(true);
-                        humano.getCasillasJugador()[fila][columna].addMouseListener(escucha);
-                        panelPosicion.add( humano.getCasillasJugador()[fila][columna]);
-                        panelPosicion.repaint();
-                        panelPosicion.updateUI();
-                        panelPosicion.validate();
 
                     }
                 }
-            }else if (e.getSource()==disparar){
-                pc.disparar();
-                pc.mostrarDisparos();
-                System.out.println("dispara");
-            }else if(e.getSource()==ponerBarcos){
+
                 pc.posicionarBarcos();
                 pc.mostrar();
                 System.out.println(pc.posicionDelElemento(pc.getBarcosPc(),4));
                 System.out.println("Puso los barcos");
+
+
+
+            }else{
+                System.exit(0);
             }
         }
 
+
+
         @Override
         public void mouseClicked(MouseEvent e) {
-            for( int fila = 0 ; fila < humano.getCasillasJugador().length; fila++ )
+            for( int fila = 0 ; fila < humano.getCasillasJugadorPosicion().length; fila++ )
             {
-                for( int columna = 0 ; columna < humano.getCasillasJugador().length; columna++ )
+                for( int columna = 0 ; columna < humano.getCasillasJugadorPosicion().length; columna++ )
                 {
-                    if(e.getSource()==humano.getCasillasJugador()[fila][columna]){
+                    if(e.getSource()==humano.getCasillasJugadorPosicion()[fila][columna]){
                         if(e.getButton()==MouseEvent.BUTTON1){
                             for (int i=fila;i<fila+3;i++){
-                                humano.getCasillasJugador()[i][columna].setVisible(false);
+                                humano.getCasillasJugadorPosicion()[i][columna].setVisible(false);
                             }
                         }else if(e.getButton()==MouseEvent.BUTTON3){
                             for (int j=columna;j<columna+3;j++){
-                                humano.getCasillasJugador()[fila][j].setVisible(false);
+                                humano.getCasillasJugadorPosicion()[fila][j].setVisible(false);
                             }
                         }
                     }
                 }
             }
+
+
             for( int fila = 0 ; fila < pc.getBarcosPc().length; fila++ )
             {
                 for( int columna = 0 ; columna < pc.getBarcosPc().length; columna++ )
