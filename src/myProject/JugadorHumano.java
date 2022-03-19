@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class JugadorHumano {
     private Barco barco1, barco2, barco3, barco4, barco5, barco6, barco7, barco8, barco9, barco10;
     private ArrayList<Barco> barcosJugador;
-    private Casillas[][] casillasJugador;
+    private Casillas[][] casillasJugadorPosicion, casillasJugadorPrincipal;
 
     public JugadorHumano() {
         barcosJugador = new ArrayList<>();
@@ -30,29 +30,40 @@ public class JugadorHumano {
         barco10 = new Barco("f");
         barcosJugador.add(barco10);
 
-        casillasJugador = new Casillas[10][10];
+        casillasJugadorPosicion = new Casillas[10][10];
+        casillasJugadorPrincipal = new Casillas[10][10];
         arrayBidCasillasJugador();
     }
 
     public void arrayBidCasillasJugador(){
-        int posicion=0;
+        int posPanelposicion=0;
+        int posPanelPrincipal=0;
 
-        for (int i=0; i < casillasJugador.length; i++){
-            for (int j=0; j < casillasJugador.length; j++){
-                casillasJugador[i][j] = new Casillas(0, false);
-                casillasJugador[i][j].setPosicion(posicion);
-                casillasJugador[i][j].setIdImagen();
-                /*casillasPc[i][j].setX(x);
-                casillasPc[i][j].setY(y);
-                y++;*/
-                posicion++;
+        for (int i=0; i < casillasJugadorPosicion.length; i++){
+            for (int j=0; j < casillasJugadorPosicion.length; j++){
+                casillasJugadorPosicion[i][j] = new Casillas(0, false);
+                casillasJugadorPosicion[i][j].setPosicion(posPanelposicion);
+                casillasJugadorPosicion[i][j].setIdImagen();
+                posPanelposicion++;
             }
-            //y=0;
-            //x++;
+        }
+
+        for (int i=0; i < casillasJugadorPrincipal.length; i++){
+            for (int j=0; j < casillasJugadorPrincipal.length; j++){
+                casillasJugadorPrincipal[i][j] = new Casillas(0, false);
+                casillasJugadorPrincipal[i][j].setPosicion(posPanelPrincipal);
+                casillasJugadorPrincipal[i][j].setIdImagen();
+                posPanelPrincipal++;
+            }
         }
     }
 
-    public Casillas[][] getCasillasJugador() {
-        return casillasJugador;
+
+    public Casillas[][] getCasillasJugadorPrincipal() {
+        return casillasJugadorPrincipal;
+    }
+
+    public Casillas[][] getCasillasJugadorPosicion() {
+        return casillasJugadorPosicion;
     }
 }
