@@ -283,11 +283,13 @@ public class GUI extends JFrame {
                         int casillasDelBarco= humano.getIdBarcoJugador(humano.getBarcosJugador().get(barco));
                         if(e.getButton()==MouseEvent.BUTTON1){
                             for (int i=fila;i<fila+casillasDelBarco;i++){
+                                humano.getCasillasJugadorPosicion()[i][columna].setIdbarco(casillasDelBarco);
                                 humano.getCasillasJugadorPosicion()[i][columna].ponerBarco();
                                 humano.getCasillasJugadorPosicion()[i][columna].setIdImagen();
                             }
                         }else if(e.getButton()==MouseEvent.BUTTON3){
                             for (int j=columna;j<columna+casillasDelBarco;j++){
+                                humano.getCasillasJugadorPosicion()[fila][j].setIdbarco(casillasDelBarco);
                                 humano.getCasillasJugadorPosicion()[fila][j].ponerBarco();
                                 humano.getCasillasJugadorPosicion()[fila][j].setIdImagen();
                             }
