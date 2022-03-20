@@ -85,6 +85,7 @@ public class JugadorHumano {
         return barcoJugador.getCasillasPorBarco();
     }
 
+
     public ArrayList<Barco> getBarcosJugador() {
         return barcosJugador;
     }
@@ -92,6 +93,7 @@ public class JugadorHumano {
     public void setBarcosJugador(ArrayList<Barco> barcosJugador) {
         this.barcosJugador = barcosJugador;
     }
+
 
     public Casillas[][] getCasillasJugadorPosicion() {
         return casillasJugadorPosicion;
