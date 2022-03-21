@@ -25,13 +25,14 @@ public class GUI extends JFrame {
             + "\nclic derecho para ubicarlos horizontalmente, e izquierdo "
             + "\npara ubicarlos de manera vertical, teniendo a disposición: "
             + "\n4 fragatas(1 casilla), 3 destructores(2 casillas), "
-            + "\n2 submarinos(3 casillas) y 1 portaaviones(4 casillas).  ";
+            + "\n2 submarinos(3 casillas) y 1 portaaviones(4 casillas).  "
+            + "\nLuego presiona el boton para darle vida al jugador PC.";
 
     private ImageIcon titulo;
     private JLabel imagentitulo;
     private Escucha escucha;
     private JPanel panelPrincipal, panelPosicion, panelTitulo, panelBotones;
-    private JButton mostrar, disparar, jugar, salir;
+    private JButton mostrar, crearPC, jugar, salir;
     private JugadorPc pc;
     private JugadorHumano humano;
 
@@ -166,9 +167,10 @@ public class GUI extends JFrame {
         this.add(mostrar, constraints);
 
 
-        disparar = new JButton("disparar");
-        disparar.addActionListener(escucha);
-        this.add(disparar, constraints);
+        crearPC = new JButton("Dar vida al PC");
+        crearPC.addActionListener(escucha);
+        crearPC.setEnabled(false);
+        this.add(crearPC, constraints);
 
 
         jugar = new JButton("Jugar");
@@ -183,7 +185,7 @@ public class GUI extends JFrame {
         panelBotones.setPreferredSize(new Dimension(690, 50));
         panelBotones.setOpaque(false);
         panelBotones.add(jugar);
-        panelBotones.add(disparar);
+        panelBotones.add(crearPC);
         panelBotones.add(mostrar);
         panelBotones.add(salir);
         constraints.gridx = 0;
@@ -218,18 +220,26 @@ public class GUI extends JFrame {
         public void actionPerformed(ActionEvent e) {
 
             if (e.getSource()==mostrar){
-                //jugadorPc.disparar();
                 pc.mostrarDisparos();
                 pc.mostrarPos();
 
 
-                //JButton[][] botones = new JButton[10][10];
+            }else if (e.getSource()==crearPC){
+
+                for( int fila = 0 ; fila < pc.getBarcosPc().length; fila++ )
+                {
+                    //Estando en la fila se recorrer las columnas
+                    for( int columna = 0 ; columna < pc.getBarcosPc().length; columna++ )
+                    {
+
+                        pc.getBarcosPc()[fila][columna].addMouseListener(escucha);
+
+                    }
+                }
+
+                crearPC.setEnabled(false);
 
 
-
-            }else if (e.getSource()==disparar){
-                pc.mostrarDisparos();
-                System.out.println("dispara");
             }else if(e.getSource()==jugar){
 
                 humano.setBarcosJugador(humano.getBarcosJugador());
@@ -244,23 +254,9 @@ public class GUI extends JFrame {
                     }
                 }
 
-
-                for( int fila = 0 ; fila < pc.getBarcosPc().length; fila++ )
-                {
-                    //Estando en la fila se recorrer las columnas
-                    for( int columna = 0 ; columna < pc.getBarcosPc().length; columna++ )
-                    {
-
-                        pc.getBarcosPc()[fila][columna].addMouseListener(escucha);
-
-                    }
-                }
-
                 pc.posicionarBarcos();
-                pc.mostrar();
-
-
                 jugar.setEnabled(false);
+
 
             }else{
                 System.exit(0);
@@ -301,6 +297,7 @@ public class GUI extends JFrame {
             }
 
             if(barco==10){
+                crearPC.setEnabled(true);
                 for( int fila = 0 ; fila < humano.getCasillasJugadorPosicion().length; fila++ ) {
                     for (int columna = 0; columna < humano.getCasillasJugadorPosicion().length; columna++) {
                         humano.getCasillasJugadorPosicion()[fila][columna].removeMouseListener(escucha);
@@ -313,30 +310,17 @@ public class GUI extends JFrame {
              * for para disparar
              */
 
+
             for( int fila = 0 ; fila < pc.getBarcosPc().length; fila++ )
             {
                 for( int columna = 0 ; columna < pc.getBarcosPc().length; columna++ )
                 {
                     if(e.getSource()==pc.getBarcosPc()[fila][columna]){
 
+
                         humano.disparar();
 
-                        if(pc.getBarcosPc()[fila][columna].getIdbarco()==4){
-                            pc.getBarcosPc()[fila][columna].removeMouseListener(escucha);
-                            pc.getBarcosPc()[fila][columna].setDisparo(true);
-                            pc.getBarcosPc()[fila][columna].cambiarNumero();
-                            pc.getBarcosPc()[fila][columna].setIdImagen();
-                        }else if (pc.getBarcosPc()[fila][columna].getIdbarco()==3){
-                            pc.getBarcosPc()[fila][columna].removeMouseListener(escucha);
-                            pc.getBarcosPc()[fila][columna].setDisparo(true);
-                            pc.getBarcosPc()[fila][columna].cambiarNumero();
-                            pc.getBarcosPc()[fila][columna].setIdImagen();
-                        }else if (pc.getBarcosPc()[fila][columna].getIdbarco()==2){
-                            pc.getBarcosPc()[fila][columna].removeMouseListener(escucha);
-                            pc.getBarcosPc()[fila][columna].setDisparo(true);
-                            pc.getBarcosPc()[fila][columna].cambiarNumero();
-                            pc.getBarcosPc()[fila][columna].setIdImagen();
-                        }else if (pc.getBarcosPc()[fila][columna].getIdbarco()==1){
+                        if(pc.getBarcosPc()[fila][columna].getIdbarco()!=0){
                             pc.getBarcosPc()[fila][columna].removeMouseListener(escucha);
                             pc.getBarcosPc()[fila][columna].setDisparo(true);
                             pc.getBarcosPc()[fila][columna].cambiarNumero();
