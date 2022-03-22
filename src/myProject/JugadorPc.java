@@ -3,6 +3,13 @@ package myProject;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Esta clase es usada para crear las casillas del jugador pc y posicionar sus barcos
+ * @author Santiago Casañas - santiago.casanas@correounivalle.edu.co - 2025301
+ * @author Jesus Adrian Peña - jesus.guetio@correounivalle.edu.co - 2025513
+ * @version v.1.0.0 date:21/03/2022
+ */
+
 public class JugadorPc {
     private Barco barco1, barco2, barco3, barco4, barco5, barco6, barco7, barco8, barco9, barco10;
     private ArrayList<Barco> barcos;
@@ -38,8 +45,13 @@ public class JugadorPc {
 
         casillasPc = new Casillas[10][10];
         arrayBidCasillas();
+        posicionarBarcos();
     }
 
+    /**
+     * crea la matriz de casillas asignandole un id y boolean inicial, para representar los disparos y lo que hay en cada casilla.
+     * ademas, le establece una imagen inicial a cada casilla.
+     */
     public void arrayBidCasillas(){
         int posicion=0;
 
@@ -48,43 +60,15 @@ public class JugadorPc {
                 casillasPc[i][j] = new Casillas(0, false);
                 casillasPc[i][j].setPosicion(posicion);
                 casillasPc[i][j].setIdImagen();
-                /*casillasPc[i][j].setX(x);
-                casillasPc[i][j].setY(y);
-                y++;*/
                 posicion++;
             }
-            //y=0;
-           //x++;
         }
     }
 
 
-    public int[]  posicionDelElemento (Casillas[][] matriz, int numero){
-
-        int[][] posiciones = new int[10][10];
-
-        for (int k=0; k < posiciones.length; k++) {
-            for (int l = 0; l < posiciones.length; l++) {
-                posiciones[k][l] = matriz[k][l].getPosicion();
-            }
-        }
-
-        int[] posicion=new int[2];
-
-        for (int i = 0; i < matriz.length; i++) {
-            for (int j = 0; j < matriz[0].length; j++) {
-
-                if(matriz[i][j].getPosicion()==numero){
-                    posicion[0]=i;
-                    posicion[1]=j;
-                }
-            }
-        }
-        return posicion;
-    }
-
-
-
+    /**
+     * Acomoda aleatoriamente los barcos del jugador pc de manera horizontal
+     */
 
     public void ponerEnFilas(){
         numBarco = 0;
@@ -133,6 +117,10 @@ public class JugadorPc {
     }
 
 
+    /**
+     *
+     * Acomoda los barcos del pc de manera aleatoria en vertical
+     */
     public void ponerEnColumnas(){
         numBarco = 0;
         int columna = 0;
@@ -180,60 +168,29 @@ public class JugadorPc {
     }
 
 
-    public void posicionarBarcos(){
+    /**
+     * Acomoda los barcos del jugador pc de manera alatoria en la matriz de casilla, ya sea en horizontal o vertical
+     */
+    public void posicionarBarcos() {
         int orientacion = random.nextInt(2);
 
-        if (orientacion==0){
+        if (orientacion == 0) {
             ponerEnColumnas();
-        }else{
+        } else {
             ponerEnFilas();
         }
     }
 
 
     /**
-     * Falta el metodo para saber que se recibió un disparo y asi cambiar la imagen
-     * @return
+     * obtiene las casillas del jugador pc
+     * @return casillas del pc
      */
-
-
     public Casillas[][] getBarcosPc() {
         return casillasPc;
     }
 
 
-    public ArrayList<Barco> getBarcos() {
-        return barcos;
-    }
-
-
-    public void mostrar(){
-        for (int x=0; x < casillasPc.length; x++){
-            for (int y=0; y < casillasPc[x].length; y++)
-                System.out.print(" | " + casillasPc[x][y].getIdbarco()+ " | ");
-            System.out.println("\n--------------------------------------------------------------");
-        }
-    }
-
-    public void mostrarPos(){
-        for (int x=0; x < casillasPc.length; x++){
-            for (int y=0; y < casillasPc[x].length; y++)
-                System.out.print(" | " + casillasPc[x][y].getPosicion()+" | ");
-            System.out.println("\n--------------------------------------------------------------");
-        }
-    }
-
-    public void mostrarDisparos(){
-        for (int x=0; x < casillasPc.length; x++){
-            for (int y=0; y < casillasPc[x].length; y++)
-                System.out.print(" | " + casillasPc[x][y].isDisparo()+ " | ");
-            System.out.println("\n--------------------------------------------------------------");
-        }
-    }
-
-    public int getNumBarco() {
-        return numBarco;
-    }
 }
 
 

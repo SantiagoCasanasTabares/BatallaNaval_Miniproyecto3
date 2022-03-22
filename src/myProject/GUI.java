@@ -1,7 +1,6 @@
 package myProject;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -11,9 +10,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 /**
- * This class is used for ...
- * @autor Paola-J Rodriguez-C paola.rodriguez@correounivalle.edu.co
- * @version v.1.0.0 date:21/11/2021
+ * Esta clase es usada para manejar toda la interfaz visual del juego
+ * @author Santiago Casañas - santiago.casanas@correounivalle.edu.co - 2025301
+ * @author Jesus Adrian Peña - jesus.guetio@correounivalle.edu.co - 2025513
+ * @version v.1.0.0 date:21/03/2022
  */
 public class GUI extends JFrame {
 
@@ -31,10 +31,11 @@ public class GUI extends JFrame {
     private ImageIcon titulo;
     private JLabel imagentitulo;
     private Escucha escucha;
-    private JPanel panelPrincipal, panelPosicion, panelTitulo, panelBotones;
+    private JPanel panelPrincipal, panelPosicion, panelTitulo, panelBotones, panelCasillas;
     private JButton mostrar, crearPC, jugar, salir;
-    private JugadorPc pc;
-    private JugadorHumano humano;
+    private Control control;
+    private GUI gui=this;
+    private JLabel[][] pruebaPC;
 
     /**
      * Constructor of GUI class
@@ -45,7 +46,7 @@ public class GUI extends JFrame {
         //Default JFrame configuration
         this.setTitle("Battleship");
         this.pack();
-        this.setResizable(true);
+        this.setResizable(false);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,8 +65,9 @@ public class GUI extends JFrame {
          * Create Listener Object and Control Object
          */
         escucha = new Escucha();
-        pc = new JugadorPc();
-        humano = new JugadorHumano();
+        control = new Control();
+        control.setCasillasPc();
+        control.setCasillasHumano();
 
 
         /**
@@ -120,39 +122,47 @@ public class GUI extends JFrame {
         constraints.gridheight = 1;
         add(panelPosicion, constraints);
 
+        Casillas[][] humano = control.getCasillasHumano();
 
+/**
+ *agrega la matriz de casiilas al panel del jugador
+ */
         //Panel donde se posiciona
-        for( int fila = 0 ; fila < humano.getCasillasJugadorPosicion().length; fila++ )
+        for( int fila = 0 ; fila < humano.length; fila++ )
         {
             //Estando en la fila se recorrer las columnas
-            for( int columna = 0 ; columna < humano.getCasillasJugadorPosicion().length; columna++ )
+            for( int columna = 0 ; columna < humano.length; columna++ )
             {
                 //Se crea el boton y se agrega a las celda de la matriz
 
                 //Se agrega el boton al panel
-                humano.getCasillasJugadorPosicion()[fila][columna].setBounds((fila*36)+10,(columna*36)+20,36,36);
-                humano.getCasillasJugadorPosicion()[fila][columna].setSize(36,36);
-                humano.getCasillasJugadorPosicion()[fila][columna].setVisible(true);
-                //pc.getBarcosPc()[fila][columna].addMouseListener(escucha);
-                panelPosicion.add( humano.getCasillasJugadorPosicion()[fila][columna]);
+                control.getCasillasHumano()[fila][columna].setBounds((fila*36)+10,(columna*36)+20,36,36);
+                control.getCasillasHumano()[fila][columna].setSize(36,36);
+                control.getCasillasHumano()[fila][columna].setVisible(true);
+                panelPosicion.add( control.getCasillasHumano()[fila][columna]);
                 panelPrincipal.repaint();
                 panelPrincipal.updateUI();
                 panelPrincipal.validate();
             }
         }
 
+        Casillas[][] pc = control.getCasillasPc();
+
+        /**
+         * agrega la matriz de casillas del pc a su respectivo panel
+         */
         //panel donde se dispara
-        for( int fila = 0 ; fila < pc.getBarcosPc().length; fila++ )
+        for( int fila = 0 ; fila < pc.length; fila++ )
         {
             //Estando en la fila se recorrer las columnas
-            for( int columna = 0 ; columna < pc.getBarcosPc().length; columna++ )
+            for( int columna = 0 ; columna < pc.length; columna++ )
             {
                 //Se crea el boton y se agrega a las celda de la matriz
-                pc.getBarcosPc()[fila][columna].setBounds((fila*36)+10,(columna*36)+20,36,36);
-                pc.getBarcosPc()[fila][columna].setSize(36,36);
-                pc.getBarcosPc()[fila][columna].setVisible(true);
+                control.getCasillasPc()[fila][columna].setBounds((fila*36)+10,(columna*36)+20,36,36);
+                control.getCasillasPc()[fila][columna].setSize(36,36);
+                control.getCasillasPc()[fila][columna].setVisible(true);
                 //humano.getCasillasJugador()[fila][columna].addMouseListener(escucha);
-                panelPrincipal.add( pc.getBarcosPc()[fila][columna]);
+                panelPrincipal.add(control.getCasillasPc()[fila][columna]);
                 panelPosicion.repaint();
                 panelPosicion.updateUI();
                 panelPosicion.validate();
@@ -209,6 +219,8 @@ public class GUI extends JFrame {
         });
     }
 
+
+
     /**
      * inner class that extends an Adapter Class or implements Listeners used by GUI class
      */
@@ -220,19 +232,49 @@ public class GUI extends JFrame {
         public void actionPerformed(ActionEvent e) {
 
             if (e.getSource()==mostrar){
-                pc.mostrarDisparos();
-                pc.mostrarPos();
 
+                JDialog dialog = new JDialog();
+                JPanel lab = new JPanel();
+                lab.setPreferredSize(new Dimension(400, 400));
+                TitledBorder titledBorderPalabra3 = BorderFactory.createTitledBorder(new EtchedBorder(EtchedBorder.LOWERED), "Panel del PC", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
+                lab.setBorder(titledBorderPalabra3);
+                titledBorderPalabra3.setTitleColor(Color.black);
+                dialog.add(lab);
+                dialog.setSize(450, 490);
+
+                pruebaPC = new JLabel[10][10];
+                for( int fila = 0 ; fila < control.getCasillasPc().length; fila++ )
+                {
+                    //Estando en la fila se recorrer las columnas
+                    for( int columna = 0 ; columna < control.getCasillasPc().length; columna++ )
+                    {
+                        //Se crea el boton y se agrega a las celda de la matriz
+                        if (control.getCasillasPc()[fila][columna].getIdbarco()!=0) {
+                            pruebaPC[fila][columna] = new JLabel(new ImageIcon(getClass().getResource("/Resources/barco.png")));
+                            lab.add(pruebaPC[fila][columna]);
+                        }else{
+                            pruebaPC[fila][columna] = new JLabel(new ImageIcon(getClass().getResource("/Resources/agua.png")));
+                            lab.add(pruebaPC[fila][columna]);
+                        }
+
+                        lab.repaint();
+                        lab.updateUI();
+                        lab.validate();
+                    }
+                }
+
+
+                dialog.setVisible(true);
 
             }else if (e.getSource()==crearPC){
 
-                for( int fila = 0 ; fila < pc.getBarcosPc().length; fila++ )
+                for( int fila = 0 ; fila < control.getCasillasPc().length; fila++ )
                 {
                     //Estando en la fila se recorrer las columnas
-                    for( int columna = 0 ; columna < pc.getBarcosPc().length; columna++ )
+                    for( int columna = 0 ; columna < control.getCasillasPc().length; columna++ )
                     {
 
-                        pc.getBarcosPc()[fila][columna].addMouseListener(escucha);
+                        control.getCasillasPc()[fila][columna].addMouseListener(escucha);
 
                     }
                 }
@@ -242,19 +284,19 @@ public class GUI extends JFrame {
 
             }else if(e.getSource()==jugar){
 
-                humano.setBarcosJugador(humano.getBarcosJugador());
+                control.setBarcosJugador(control.getBarcos());
                 JOptionPane.showMessageDialog(null, MENSAJE_AYUDA_INICIAL, "Como jugar", JOptionPane.DEFAULT_OPTION);
 
-                for( int fila = 0 ; fila < humano.getCasillasJugadorPosicion().length; fila++ )
+                for( int fila = 0 ; fila < control.getCasillasHumano().length; fila++ )
                 {
                     //Estando en la fila se recorrer las columnas
-                    for( int columna = 0 ; columna < humano.getCasillasJugadorPosicion().length; columna++ )
+                    for( int columna = 0 ; columna < control.getCasillasHumano().length; columna++ )
                     {
-                        humano.getCasillasJugadorPosicion()[fila][columna].addMouseListener(escucha);
+                        control.getCasillasHumano()[fila][columna].addMouseListener(escucha);
                     }
                 }
 
-                pc.posicionarBarcos();
+
                 jugar.setEnabled(false);
 
 
@@ -268,39 +310,46 @@ public class GUI extends JFrame {
         @Override
         public void mouseClicked(MouseEvent e) {
 
+
             /**
-             * for para posicionar barcos
+             * for para posicionar barcos del jugador en donde el clickee
              */
-            for( int fila = 0 ; fila < humano.getCasillasJugadorPosicion().length; fila++ )
+            for( int fila = 0 ; fila < control.getCasillasHumano().length; fila++ )
             {
-                for( int columna = 0 ; columna < humano.getCasillasJugadorPosicion().length; columna++ )
+                for( int columna = 0 ; columna < control.getCasillasHumano().length; columna++ )
                 {
-                    if(e.getSource()==humano.getCasillasJugadorPosicion()[fila][columna]){
-                        int casillasDelBarco= humano.getIdBarcoJugador(humano.getBarcosJugador().get(barco));
-                        if(e.getButton()==MouseEvent.BUTTON1){
+                    if(e.getSource()==control.getCasillasHumano()[fila][columna]){
+                        int casillasDelBarco= control.casillasPorBarco(control.getBarcos().get(barco));
+                        int idCasilla = control.getCasillasHumano()[fila][columna].getIdbarco();
+                        if(e.getButton()==MouseEvent.BUTTON1 && idCasilla==0){
                             for (int i=fila;i<fila+casillasDelBarco;i++){
-                                humano.getCasillasJugadorPosicion()[i][columna].setIdbarco(casillasDelBarco);
-                                humano.getCasillasJugadorPosicion()[i][columna].ponerBarco();
-                                humano.getCasillasJugadorPosicion()[i][columna].setIdImagen();
+                                control.getCasillasHumano()[i][columna].setIdbarco(casillasDelBarco);
+                                control.getCasillasHumano()[i][columna].ponerBarco();
+                                control.getCasillasHumano()[i][columna].setIdImagen();
                             }
-                        }else if(e.getButton()==MouseEvent.BUTTON3){
+                            barco++;
+                        }else if(e.getButton()==MouseEvent.BUTTON3 && idCasilla==0){
                             for (int j=columna;j<columna+casillasDelBarco;j++){
-                                humano.getCasillasJugadorPosicion()[fila][j].setIdbarco(casillasDelBarco);
-                                humano.getCasillasJugadorPosicion()[fila][j].ponerBarco();
-                                humano.getCasillasJugadorPosicion()[fila][j].setIdImagen();
+                                control.getCasillasHumano()[fila][j].setIdbarco(casillasDelBarco);
+                                control.getCasillasHumano()[fila][j].ponerBarco();
+                                control.getCasillasHumano()[fila][j].setIdImagen();
                             }
+                            barco++;
+                        }else if (idCasilla!=0){
+                            JOptionPane.showMessageDialog(null, "No puedes poner un barco aquí.");
                         }
-                        System.out.println(barco);
-                        barco++;
                     }
                 }
             }
 
+            /**
+             * luego de que el jugador posicione sus barcos, se le retiran los escuchas a sus casillas
+             */
             if(barco==10){
                 crearPC.setEnabled(true);
-                for( int fila = 0 ; fila < humano.getCasillasJugadorPosicion().length; fila++ ) {
-                    for (int columna = 0; columna < humano.getCasillasJugadorPosicion().length; columna++) {
-                        humano.getCasillasJugadorPosicion()[fila][columna].removeMouseListener(escucha);
+                for( int fila = 0 ; fila < control.getCasillasHumano().length; fila++ ) {
+                    for (int columna = 0; columna < control.getCasillasHumano().length; columna++) {
+                        control.getCasillasHumano()[fila][columna].removeMouseListener(escucha);
                     }
                 }
             }
@@ -311,27 +360,67 @@ public class GUI extends JFrame {
              */
 
 
-            for( int fila = 0 ; fila < pc.getBarcosPc().length; fila++ )
+            for( int fila = 0 ; fila < control.getCasillasPc().length; fila++ )
             {
-                for( int columna = 0 ; columna < pc.getBarcosPc().length; columna++ )
+                for( int columna = 0 ; columna < control.getCasillasPc().length; columna++ )
                 {
-                    if(e.getSource()==pc.getBarcosPc()[fila][columna]){
+                    if(e.getSource()==control.getCasillasPc()[fila][columna]){
 
 
-                        humano.disparar();
+                        control.disparar();
 
-                        if(pc.getBarcosPc()[fila][columna].getIdbarco()!=0){
-                            pc.getBarcosPc()[fila][columna].removeMouseListener(escucha);
-                            pc.getBarcosPc()[fila][columna].setDisparo(true);
-                            pc.getBarcosPc()[fila][columna].cambiarNumero();
-                            pc.getBarcosPc()[fila][columna].setIdImagen();
-                        }else if (pc.getBarcosPc()[fila][columna].getIdbarco()==0){
-                            pc.getBarcosPc()[fila][columna].removeMouseListener(escucha);
-                            pc.getBarcosPc()[fila][columna].setDisparo(true);
-                            pc.getBarcosPc()[fila][columna].cambiarNumero();
-                            pc.getBarcosPc()[fila][columna].setIdImagen();
+
+                        if(control.getCasillasPc()[fila][columna].getIdbarco()!=0){
+                            control.getCasillasPc()[fila][columna].removeMouseListener(escucha);
+                            control.getCasillasPc()[fila][columna].setDisparo(true);
+                            control.getCasillasPc()[fila][columna].cambiarNumero();
+                            control.getCasillasPc()[fila][columna].setIdImagen();
+                            control.restarVidaPc();
+                        }else if (control.getCasillasPc()[fila][columna].getIdbarco()==0){
+                            control.getCasillasPc()[fila][columna].removeMouseListener(escucha);
+                            control.getCasillasPc()[fila][columna].setDisparo(true);
+                            control.getCasillasPc()[fila][columna].cambiarNumero();
+                            control.getCasillasPc()[fila][columna].setIdImagen();
                         }
                     }
+                }
+                if (control.detertminarEstado()==1){
+                    int seleccion = JOptionPane.showOptionDialog(
+                            null,
+                            control.getMensajeFinal(1),
+                            null,
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,    // null para icono por defecto.
+                            new Object[] { "Reiniciar", "Salir" },   // null para YES, NO y CANCEL
+                            null);
+
+                    if (seleccion == 0) {
+                        GUI.main(null);
+                        gui.dispose();
+                        control.setEstado(0);
+                    }else if (seleccion ==1){
+                        System.exit(0);
+                    }
+                }else if (control.detertminarEstado()==2){
+                    int seleccion = JOptionPane.showOptionDialog(
+                            null,
+                            control.getMensajeFinal(2),
+                            null,
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,    // null para icono por defecto.
+                            new Object[] { "Reiniciar", "Salir" },   // null para YES, NO y CANCEL
+                            null);
+
+                    if (seleccion == 0) {
+                        GUI.main(null);
+                        gui.dispose();
+                        control.setEstado(0);
+                    }else if (seleccion ==1){
+                        System.exit(0);
+                    }
+
                 }
             }
         }
@@ -356,4 +445,6 @@ public class GUI extends JFrame {
 
         }
     }
+
+
 }
