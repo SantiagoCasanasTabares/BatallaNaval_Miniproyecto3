@@ -1,8 +1,14 @@
 package myProject;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+
+/**
+ * Esta clase es usada para manejar las casillas
+ * @author Santiago Casañas - santiago.casanas@correounivalle.edu.co - 2025301
+ * @author Jesus Adrian Peña - jesus.guetio@correounivalle.edu.co - 2025513
+ * @version v.1.0.0 date:21/03/2022
+ */
 
 public class Casillas extends JLabel {
     private int idbarco, idImagen, posicion;
@@ -21,6 +27,9 @@ public class Casillas extends JLabel {
 
     }
 
+    /**
+     * establece una imagen dependiendo del id de la casilla
+     */
     public void setIdImagen(){
         switch (idImagen){
             case 0: this.setIcon(imagenAgua);
@@ -36,6 +45,9 @@ public class Casillas extends JLabel {
         }
     }
 
+    /**
+     * cambia la id de la imagen dependiendo del disparo del jugador
+     */
     public void cambiarNumero(){
         if(disparo && idbarco==0){
             this.idImagen=1;
@@ -44,31 +56,58 @@ public class Casillas extends JLabel {
         }
     }
 
+    /**
+     * establece la id del barco a una casilla para que se le asigne esa imagen
+     */
     public void ponerBarco(){
         this.idImagen=4;
     }
 
+    /**
+     * obtiene la id del barco
+     * @return
+     */
     public int getIdbarco() {
         return idbarco;
     }
 
+    /**
+     * setter de la id del barco
+     * @param idbarco
+     */
     public void setIdbarco(int idbarco) {
         this.idbarco = idbarco;
     }
 
+    /**
+     * verifica si se disparo
+     * @return
+     */
     public boolean isDisparo() {
         return disparo;
     }
 
+    /**
+     * setter del disparo
+     * @param disparo
+     */
     public void setDisparo(boolean disparo) {
         this.disparo = disparo;
     }
 
 
+    /**
+     * obtiene la posicion
+     * @return
+     */
     public int getPosicion() {
         return posicion;
     }
 
+    /**
+     * setter de posicion
+     * @param posicion
+     */
     public void setPosicion(int posicion) {
         this.posicion = posicion;
     }
